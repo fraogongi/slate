@@ -3,8 +3,6 @@ title: Badalaa Developer API Documentation
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell: cURL
-  - php: PHP
-  - python: Python
 
 toc_footers:
   - <a href='#'>Sign Up for a Developer Key</a>
@@ -18,14 +16,6 @@ search: true
 # Introduction
 
 > API Endpoint
-
-```php
-http://api.badalaa.com/api/v1/
-```
-
-```python
-http://api.badalaa.com/api/v1/
-```
 
 ```shell
 http://api.badalaa.com/api/v1/
@@ -66,18 +56,6 @@ Status Code | Meaning
 
 > To authorize, use this code:
 
-```php
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('BADALAA_API_TOKEN_KEY')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('BADALAA_API_TOKEN_KEY')
-```
-
 ```shell
 # With shell, you can just pass the correct header with each request
 curl "api_endpoint_here"
@@ -103,18 +81,6 @@ Your API keys carry many privileges, so be sure to keep them secure! Do not shar
 
 ## Retrieve a product category
 
-```php
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('BADALAA_API_TOKEN_KEY')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('BADALAA_API_TOKEN_KEY')
-```
-
 ```shell
 curl http://api.badalaa.com/api/v1/product_categories/{id}/
   -H "Authorization: Token BADALAA_API_TOKEN_KEY"
@@ -138,18 +104,6 @@ This endpoint lets you retrieve a product category by ID.
 `GET http://api.badalaa.com/api/v1/product_categories/{id}/`
 
 ## List all product categories
-
-```php
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('BADALAA_API_TOKEN_KEY')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('BADALAA_API_TOKEN_KEY')
-```
 
 ```shell
 curl http://api.badalaa.com/api/v1/product_categories/
@@ -182,173 +136,31 @@ This endpoint retrieves all product categories.
 
 # Orders
 
-## Get All Kittens
+`Order` objects are created to handle end customers' purchases. You can create, retrieve, as well as list all orders. Orders are identified by an ID.
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('BADALAA_API_TOKEN_KEY')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('BADALAA_API_TOKEN_KEY')
-api.kittens.get()
-```
+## Create an order
 
 ```shell
-curl "http://example.com/api/kittens"
+curl http://api.badalaa.com/api/v1/purchase/
+  -X POST
+  -H "Content-Type: application/json"
   -H "Authorization: Token BADALAA_API_TOKEN_KEY"
+  --data '{"first_name":"John", "last_name":"Doe", "email":"john@mail.com", "product_category_code":"101", "product_selling_price": 5000}'
 ```
 
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('BADALAA_API_TOKEN_KEY');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
+Creates a new `Order` object. This is similar to making a purchase.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://api.badalaa.com/api/v1/purchase/`
 
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('BADALAA_API_TOKEN_KEY')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('BADALAA_API_TOKEN_KEY')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: BADALAA_API_TOKEN_KEY"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('BADALAA_API_TOKEN_KEY');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
+### Arguments
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('BADALAA_API_TOKEN_KEY')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('BADALAA_API_TOKEN_KEY')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
+first_name | First name of the customer placing the order.
+last_name | Last name of the customer placing the order.
+email | The email address of the customer placing the order.
+product_category_code | Category code of the prouct being purchased. See [Product Categories](#product-categories).
+product_selling_price | Total amount paid for the product.
 
